@@ -1,33 +1,18 @@
-import resolve from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
-import typescript from "@rollup/plugin-typescript";
-import dts from "rollup-plugin-dts";
-import { terser } from "rollup-plugin-terser";
-import peerDepsExternal from "rollup-plugin-peer-deps-external";
-
-const packageJson = require("./package.json");
+import typescript from "rollup-plugin-typescript2";
+import pkg from "./package.json";
 
 export default [
 	{
 		input: "src/index.ts",
-		output: [
-			{
-				file: packageJson.main,
-				format: "cjs",
-				sourcemap: true,
-			},
-			{
-				file: packageJson.module,
-				format: "esm",
-				sourcemap: true,
-			},
+		external: Object.keys(pkg.peerDependencies || {}),
+		plugins: [
+			typescript({
+				typescript: require("typescript"),
+			}),
 		],
-		plugins: [peerDepsExternal(), resolve(), commonjs(), typescript({ tsconfig: "./tsconfig.json" }), terser()],
-		external: ["react", "react-dom", "styled-components"],
-	},
-	{
-		input: "dist/esm/index.d.ts",
-		output: [{ file: "dist/index.d.ts", format: "esm" }],
-		plugins: [dts()],
+		output: [
+			{ file: pkg.main, format: "cjs" },
+			{ file: pkg.module, format: "esm" },
+		],
 	},
 ];
