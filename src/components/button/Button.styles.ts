@@ -6,9 +6,9 @@ export const StyledButton = styled.button<ButtonProps>`
 	line-height: 1;
 	font-size: 15px;
 	cursor: pointer;
-	font-weight: 700;
+	font-weight: 400;
 	font-weight: bold;
-	border-radius: 3px;
+	border-radius: 10px;
 	display: inline-block;
 	padding: ${(props) => (props.size === "small" ? "7px 25px 8px" : props.size === "medium" ? "9px 30px 11px" : "14px 30px 16px")};
 	color: ${(props) => (props.primary ? "#1b116e" : "#ffffff")};
